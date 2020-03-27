@@ -637,6 +637,20 @@ Item {
                     action:             _guidedController.actionPause
                 },
                 {
+                    name:               _guidedController.payloadControlDeployTitle,
+                    iconSource:         "/res/payloadDeploy.svg",
+                    buttonVisible:      _guidedController.showDeploy,
+                    buttonEnabled:      true,
+                    action:             _guidedController.actionPayloadControlDeploy
+                },
+                {
+                    name:               _guidedController.payloadControlRetractTitle,
+                    iconSource:         "/res/payloadRetract.svg",
+                    buttonVisible:      _guidedController.showRetract,
+                    buttonEnabled:      true,
+                    action:             _guidedController.actionPayloadControlRetract
+                },
+                {
                     name:               qsTr("Action"),
                     iconSource:         "/res/action.svg",
                     buttonVisible:      _anyActionAvailable,

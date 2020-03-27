@@ -4231,6 +4231,22 @@ void Vehicle::gimbalControlValue(double pitch, double yaw)
         MAV_MOUNT_MODE_MAVLINK_TARGETING);   // MAVLink Roll,Pitch,Yaw
 }
 
+void Vehicle::gimbalControlMode(MAV_MOUNT_MODE mode)
+{
+    //qDebug() << "Gimbal:" << pitch << yaw;
+    sendMavCommand(
+        _defaultComponentId,
+        MAV_CMD_DO_MOUNT_CONTROL,
+        false,                               // show errors
+        0,                                   // Pitch 0 - 90
+        0,                                   // Roll (not used)
+        0,                                   // Yaw -180 - 180
+        0,                                   // Altitude (not used)
+        0,                                   // Latitude (not used)
+        0,                                   // Longitude (not used)
+        mode);                               // MAVLink Roll,Pitch,Yaw
+}
+
 void Vehicle::gimbalPitchStep(int direction)
 {
     if(_haveGimbalData) {
@@ -4254,6 +4270,16 @@ void Vehicle::centerGimbal()
     if(_haveGimbalData) {
         gimbalControlValue(0.0, 0.0);
     }
+}
+
+void Vehicle::payloadDeploy()
+{
+    gimbalControlMode(MAV_MOUNT_MODE_NEUTRAL);
+}
+
+void Vehicle::payloadRetract()
+{
+    gimbalControlMode(MAV_MOUNT_MODE_RETRACT);
 }
 
 void Vehicle::_handleGimbalOrientation(const mavlink_message_t& message)
