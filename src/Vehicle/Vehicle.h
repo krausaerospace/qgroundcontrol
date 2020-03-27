@@ -776,9 +776,12 @@ public:
     Q_INVOKABLE void setPIDTuningTelemetryMode(bool pidTuning);
 
     Q_INVOKABLE void gimbalControlValue (double pitch, double yaw);
+    Q_INVOKABLE void gimbalControlMode (MAV_MOUNT_MODE mode);
     Q_INVOKABLE void gimbalPitchStep    (int direction);
     Q_INVOKABLE void gimbalYawStep      (int direction);
     Q_INVOKABLE void centerGimbal       ();
+    Q_INVOKABLE void payloadDeploy      ();
+    Q_INVOKABLE void payloadRetract     ();
 
 #if !defined(NO_ARDUPILOT_DIALECT)
     Q_INVOKABLE void flashBootloader();
