@@ -656,7 +656,63 @@ Item {
                     buttonVisible:      !_guidedController.showPause,
                     buttonEnabled:      _anyActionAvailable,
                     action:             -1
-                }
+                },
+                {
+                    name:                qsTr("Mode: Rate"),
+                    buttonVisible:      _guidedController.showRetract,
+                    buttonEnabled:      true,
+                    action:             _guidedController.actionPayloadSetCustomMode,
+                    data:               0x10,
+                },
+                {
+                    name:                qsTr("Mode: Scene"),
+                    buttonVisible:      _guidedController.showRetract,
+                    buttonEnabled:      true,
+                    action:             _guidedController.actionPayloadSetCustomMode,
+                    data:               0x30,
+                },
+                {
+                    name:                qsTr("Mode: Track"),
+                    buttonVisible:      _guidedController.showRetract,
+                    buttonEnabled:      true,
+                    action:             _guidedController.actionPayloadSetCustomMode,
+                    data:               0x31,
+                },
+                {
+                    name:                qsTr("Mode: Geo"),
+                    buttonVisible:      _guidedController.showRetract,
+                    buttonEnabled:      true,
+                    action:             _guidedController.actionPayloadSetCustomMode,
+                    data:               0x60,
+                },
+                {
+                    name:                qsTr("Zoom +"),
+                    buttonVisible:      _guidedController.showRetract,
+                    buttonEnabled:      true,
+                    action:             _guidedController.actionPayloadZoom,
+                    data:               1,
+                },
+                {
+                    name:                qsTr("Zoom -"),
+                    buttonVisible:      _guidedController.showRetract,
+                    buttonEnabled:      true,
+                    action:             _guidedController.actionPayloadZoom,
+                    data:               -1,
+                },
+                {
+                    name:                qsTr("Cam: Optical"),
+                    buttonVisible:      _guidedController.showRetract,
+                    buttonEnabled:      true,
+                    action:             _guidedController.actionPayloadCamType,
+                    data:               0,
+                },
+                {
+                    name:                qsTr("Cam: IR"),
+                    buttonVisible:      _guidedController.showRetract,
+                    buttonEnabled:      true,
+                    action:             _guidedController.actionPayloadCamType,
+                    data:               1,
+                },
             ]
 
             onClicked: {
@@ -665,11 +721,19 @@ Item {
                 } else {
                     guidedActionsController.closeAll()
                     var action = model[index].action
-                    if (action === -1) {
+                    var data = model[index].data
+                    switch (action) {
+                    case -1:
                         guidedActionList.model   = _actionModel
                         guidedActionList.visible = true
-                    } else {
-                        _guidedController.confirmAction(action)
+                        break
+                    case _guidedController.actionPayloadCamType:
+                    case _guidedController.actionPayloadZoom:
+                        _guidedController.executeAction(action, data)
+                        break
+                    default:
+                        _guidedController.confirmAction(action, data)
+                        break
                     }
                 }
 

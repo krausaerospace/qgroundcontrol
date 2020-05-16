@@ -782,6 +782,11 @@ public:
     Q_INVOKABLE void centerGimbal       ();
     Q_INVOKABLE void payloadDeploy      ();
     Q_INVOKABLE void payloadRetract     ();
+    Q_INVOKABLE QString payloadGetCustomModeName(int mode);
+    Q_INVOKABLE void gimbalSetCustomMode(int customMode);
+    Q_INVOKABLE void gimbalControlZoom (int zoom);
+    Q_INVOKABLE void gimbalControPanTilt(float pan, float tilt);
+    Q_INVOKABLE void gimbalControlCamType(int type);
 
 #if !defined(NO_ARDUPILOT_DIALECT)
     Q_INVOKABLE void flashBootloader();
@@ -798,6 +803,26 @@ public:
 
     QGeoCoordinate coordinate() { return _coordinate; }
     QGeoCoordinate armedPosition    () { return _armedPosition; }
+
+
+    enum ORION_MODE {
+        ORION_MODE_DISABLED = 0x00,          //!< disable motor output
+        ORION_MODE_FAULT = 0x01,             //!< Gimbal has experienced a fault and motors have been disabled
+        ORION_MODE_RATE = 0x10,              //!< Commands give the line of sight angular rate of the camera
+        ORION_MODE_GEO_RATE = 0x11,          //!< Inertial rate mode, with bulk motion compensation when valid slant range is available
+        ORION_MODE_FFC_AUTO = 0x20,          //!< Commands the gimbal to perform a flat field correction, pan and tilt will drive the IR camera to look at the black body
+        ORION_MODE_FFC = ORION_MODE_FFC_AUTO,//!< Legacy FFC mode, alias of ORION_MODE_FFC_AUTO
+        ORION_MODE_FFC_MANUAL = 0x21,        //!< Commands the gimbal to perform a flat field correction, pan and tilt will drive the IR camera to the commanded positions. NOTE: The pan/tilt targets specify the payload position, not the boresight position, so the reported angles may not match the command target
+        ORION_MODE_SCENE = 0x30,             //!< Commands give the angular rate of the image produced by the camera
+        ORION_MODE_TRACK = 0x31,             //!< Commands give the angular rate of the track box in the camera image
+        ORION_MODE_CALIBRATION = 0x40,       //!< Drives the pan and tilt axes to calibrate the stabilizer gyros
+        ORION_MODE_POSITION = 0x50,          //!< Commands give the position of the pan and tilt axes with respect to the gimbal mount
+        ORION_MODE_POSITION_NO_LIMITS = 0x51,//!< Commands give the position of the pan and tilt axes with respect to the gimbal mount. NOTE: This mode ignores the pan/tilt limits and can result in serious damage to the gimbal if used incorrectly
+        ORION_MODE_GEOPOINT = 0x60,          //!< Gimbal is pointing toward a fixed spatial location
+        ORION_MODE_PATH = 0x70,              //!< Gimbal is pointing toward a fixed path in space, and may be doing step-stare
+        ORION_MODE_DOWN = 0x71,              //!< Gimbal is pointing straight down, and may be doing step-stare
+        ORION_MODE_UNKNOWN = 0xFF            //!< Unknown gimbal mode. This is unused in normal operation and is strictly to maintain compatibility with v1.2
+    };
 
     typedef enum {
         JoystickModeRC,         ///< Joystick emulates an RC Transmitter

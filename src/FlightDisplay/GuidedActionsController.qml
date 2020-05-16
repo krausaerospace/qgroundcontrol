@@ -101,6 +101,10 @@ Item {
     readonly property int actionROI:                        22
     readonly property int actionPayloadControlDeploy:       23
     readonly property int actionPayloadControlRetract:      24
+    readonly property int actionPayloadSetCustomMode:       25
+    readonly property int actionPayloadZoom:                26
+    readonly property int actionPayloadCamType:             27
+    readonly property int actionPayloadPanTilt:             28
 
     property bool   _useChecklist:              QGroundControl.settingsManager.appSettings.useChecklist.rawValue && QGroundControl.corePlugin.options.preFlightChecklistUrl.toString().length
     property bool   _enforceChecklist:          _useChecklist && QGroundControl.settingsManager.appSettings.enforceChecklist.rawValue
@@ -374,6 +378,19 @@ Item {
             confirmDialog.message = payloadControlRetractMessage
             confirmDialog.hideTrigger = true
             break;
+        case actionPayloadSetCustomMode:
+            confirmDialog.title = qsTr("Set mode to: ") + activeVehicle.payloadGetCustomModeName(actionData);
+            confirmDialog.message = qsTr("Set custom gimbal mode.")
+            confirmDialog.hideTrigger = true
+            break;
+        case actionPayloadCamType:
+            confirmDialog.title = (actionData === 0) ? qsTr("Set Cam to OPTICAL") : qsTr("Set Cam to IR")
+            confirmDialog.message = qsTr("Set gimbal sensor type.")
+            confirmDialog.hideTrigger = true
+            break;
+//        case actionPayloadZoom:
+//        case actionPayloadPanTilt:
+//            return;
         default:
             console.warn("Unknown actionCode", actionCode)
             return
@@ -462,6 +479,20 @@ Item {
             showRetract = false
             activeVehicle.payloadRetract()
             break
+
+        case actionPayloadSetCustomMode:
+            activeVehicle.gimbalSetCustomMode(actionData);
+            break;
+        case actionPayloadZoom:
+            activeVehicle.gimbalControlZoom(actionData);
+            break;
+        case actionPayloadCamType:
+            activeVehicle.gimbalControlCamType(actionData);
+            break;
+        case actionPayloadPanTilt:
+            activeVehicle.gimbalControlPanTilt(actionData,actionAltitudeChange);
+            break;
+
         default:
             console.warn(qsTr("Internal error: unknown actionCode"), actionCode)
             break
