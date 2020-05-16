@@ -4247,6 +4247,55 @@ void Vehicle::gimbalControlMode(MAV_MOUNT_MODE mode)
         mode);                               // MAVLink Roll,Pitch,Yaw
 }
 
+void Vehicle::gimbalSetCustomMode(int customMode)
+{
+    sendMavCommand(
+        _defaultComponentId,
+        (MAV_CMD)1331,
+        false,                               // show errors
+        static_cast<float>(1 << 0),
+        static_cast<float>(customMode));
+}
+
+void Vehicle::gimbalControlZoom(int zoom)
+{
+    // 0 for zoom out/less/dec
+    // 1 for zoom in/more/inc
+
+    sendMavCommand(
+        _defaultComponentId,
+        (MAV_CMD)1331,
+        false,
+        static_cast<float>(1 << 1),
+        0,
+        static_cast<float>(zoom));
+}
+
+void Vehicle::gimbalControlCamType(int type)
+{
+    // 0 for optical
+    // 1 for IR
+    sendMavCommand(
+        _defaultComponentId,
+        (MAV_CMD)1331,
+        false,
+        static_cast<float>(1 << 2),
+        0,0,
+        static_cast<float>(type));
+}
+
+void Vehicle::gimbalControPanTilt(float pan, float tilt)
+{
+    sendMavCommand(
+        _defaultComponentId,
+        (MAV_CMD)1331,
+        false,
+        static_cast<float>((1 << 3) | (1 << 4)),
+        0, 0, 0,
+        pan,
+        tilt);
+}
+
 void Vehicle::gimbalPitchStep(int direction)
 {
     if(_haveGimbalData) {
@@ -4280,6 +4329,32 @@ void Vehicle::payloadDeploy()
 void Vehicle::payloadRetract()
 {
     gimbalControlMode(MAV_MOUNT_MODE_RETRACT);
+}
+
+QString Vehicle::payloadGetCustomModeName(int mode)
+{
+    switch (mode) {
+    case ORION_MODE_DISABLED:       return "DISABLED";
+
+    case ORION_MODE_FAULT:          return "FAULT";
+    case ORION_MODE_RATE:           return "RATE";
+    case ORION_MODE_GEO_RATE:       return "GEO_RATE";
+    case ORION_MODE_FFC_AUTO:       return "FFC_AUTO";
+    //case ORION_MODE_FFC:            return "FFC";
+    case ORION_MODE_FFC_MANUAL:     return "FFC_MANUAL";
+    case ORION_MODE_SCENE:          return "SCENE";
+    case ORION_MODE_TRACK:          return "TRACK";
+    case ORION_MODE_CALIBRATION:    return "CALIBRATION";
+    case ORION_MODE_POSITION:       return "POSITION";
+    case ORION_MODE_POSITION_NO_LIMITS: return "POS_NO_LIMITS";
+    case ORION_MODE_GEOPOINT:       return "GEOPOINT";
+    case ORION_MODE_PATH:           return "PATH";
+    case ORION_MODE_DOWN:           return "DOWN";
+    case ORION_MODE_UNKNOWN:        return "UNKNOWN";
+
+    default:
+        return "Unknown";
+    }
 }
 
 void Vehicle::_handleGimbalOrientation(const mavlink_message_t& message)
