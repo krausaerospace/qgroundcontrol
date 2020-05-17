@@ -44,6 +44,8 @@ public:
         QRTL          = 21,
         QAUTOTUNE     = 22,
         QACRO         = 23,
+        FOLLOW        = 24,
+        STALLRECOVERY = 25,
     };
 
     APMPlaneMode(uint32_t mode, bool settable);

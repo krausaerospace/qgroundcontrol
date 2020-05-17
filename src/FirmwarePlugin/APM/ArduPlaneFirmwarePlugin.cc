@@ -39,6 +39,8 @@ APMPlaneMode::APMPlaneMode(uint32_t mode, bool settable)
         { QRTL,             "QuadPlane RTL" },
         { QAUTOTUNE,        "QuadPlane AutoTune" },
         { QACRO,            "QuadPlane Acro" },
+        { FOLLOW,           "Follow" },
+        { STALLRECOVERY,    "Stall Recovery" },
     });
 }
 
@@ -46,28 +48,29 @@ ArduPlaneFirmwarePlugin::ArduPlaneFirmwarePlugin(void)
 {
     setSupportedModes({
         APMPlaneMode(APMPlaneMode::MANUAL,          true),
-        APMPlaneMode(APMPlaneMode::CIRCLE,          true),
+        APMPlaneMode(APMPlaneMode::CIRCLE,          false),
         APMPlaneMode(APMPlaneMode::STABILIZE,       true),
-        APMPlaneMode(APMPlaneMode::TRAINING,        true),
-        APMPlaneMode(APMPlaneMode::ACRO,            true),
+        APMPlaneMode(APMPlaneMode::TRAINING,        false),
+        APMPlaneMode(APMPlaneMode::ACRO,            false),
         APMPlaneMode(APMPlaneMode::FLY_BY_WIRE_A,   true),
         APMPlaneMode(APMPlaneMode::FLY_BY_WIRE_B,   true),
-        APMPlaneMode(APMPlaneMode::CRUISE,          true),
-        APMPlaneMode(APMPlaneMode::AUTOTUNE,        true),
+        APMPlaneMode(APMPlaneMode::CRUISE,          false),
+        APMPlaneMode(APMPlaneMode::AUTOTUNE,        false),
         APMPlaneMode(APMPlaneMode::AUTO,            true),
         APMPlaneMode(APMPlaneMode::RTL,             true),
         APMPlaneMode(APMPlaneMode::LOITER,          true),
-        APMPlaneMode(APMPlaneMode::TAKEOFF,         true),
+        APMPlaneMode(APMPlaneMode::TAKEOFF,         false),
         APMPlaneMode(APMPlaneMode::AVOID_ADSB,      false),
         APMPlaneMode(APMPlaneMode::GUIDED,          true),
         APMPlaneMode(APMPlaneMode::INITIALIZING,    false),
-        APMPlaneMode(APMPlaneMode::QSTABILIZE,      true),
-        APMPlaneMode(APMPlaneMode::QHOVER,          true),
-        APMPlaneMode(APMPlaneMode::QLOITER,         true),
-        APMPlaneMode(APMPlaneMode::QLAND,           true),
-        APMPlaneMode(APMPlaneMode::QRTL,            true),
-        APMPlaneMode(APMPlaneMode::QAUTOTUNE,       true),
-        APMPlaneMode(APMPlaneMode::QACRO,           true),
+        APMPlaneMode(APMPlaneMode::QSTABILIZE,      false),
+        APMPlaneMode(APMPlaneMode::QHOVER,          false),
+        APMPlaneMode(APMPlaneMode::QLOITER,         false),
+        APMPlaneMode(APMPlaneMode::QLAND,           false),
+        APMPlaneMode(APMPlaneMode::QRTL,            false),
+        APMPlaneMode(APMPlaneMode::QAUTOTUNE,       false),
+        APMPlaneMode(APMPlaneMode::FOLLOW,          true),
+        APMPlaneMode(APMPlaneMode::STALLRECOVERY,   true),
     });
 
     if (!_remapParamNameIntialized) {
