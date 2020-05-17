@@ -139,7 +139,7 @@ Item {
     property bool   _missionActive:         activeVehicle ? _vehicleArmed && (_vehicleInLandMode || _vehicleInRTLMode || _vehicleInMissionMode) : false
     property bool   _vehicleArmed:          activeVehicle ? activeVehicle.armed  : false
     property bool   _vehicleFlying:         activeVehicle ? activeVehicle.flying  : false
-    property bool   _vehicleLanding:        activeVehicle ? activeVehicle.landing  : false
+    property bool   _vehicleLanding:        (missionController.currentMissionIndex+1) === missionController.missionItemCount ? true : false
     property bool   _vehiclePaused:         false
     property bool   _vehicleInMissionMode:  false
     property bool   _vehicleInRTLMode:      false
@@ -453,7 +453,7 @@ Item {
             activeVehicle.guidedModeOrbit(orbitMapCircle.center, orbitMapCircle.radius() * (orbitMapCircle.clockwiseRotation ? 1 : -1), activeVehicle.altitudeAMSL.rawValue + actionAltitudeChange)
             break
         case actionLandAbort:
-            activeVehicle.abortLanding(50)     // hardcoded value for climbOutAltitude that is currently ignored
+            activeVehicle.abortLanding(0)     // hardcoded value for climbOutAltitude that is currently ignored
             break
         case actionPause:
             activeVehicle.pauseVehicle()
