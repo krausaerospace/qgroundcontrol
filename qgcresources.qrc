@@ -51,6 +51,7 @@
         <file>resources/icons/qgroundcontrol.ico</file>
         <file alias="payloadRetract.svg">resources/payloadRetract.svg</file>
         <file alias="payloadDeploy.svg">resources/payloadDeploy.svg</file>
+        <file alias="stallRecoveryRedSquare.svg">resources/stallRecoveryRedSquare.svg</file>
     </qresource>
     <qresource prefix="/res/firmware">
         <file alias="3drradio.png">resources/firmware/3drradio.png</file>
