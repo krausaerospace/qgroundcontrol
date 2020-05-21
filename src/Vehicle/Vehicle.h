@@ -788,6 +788,9 @@ public:
     Q_INVOKABLE void gimbalControPanTilt(float pan, float tilt);
     Q_INVOKABLE void gimbalControlCamType(int type);
 
+    Q_INVOKABLE void setFlightModeByModeNumber(int control_mode);
+    Q_INVOKABLE void setSoaringState(int state);
+
 #if !defined(NO_ARDUPILOT_DIALECT)
     Q_INVOKABLE void flashBootloader();
 #endif
@@ -889,6 +892,7 @@ public:
     QStringList extraJoystickFlightModes    ();
     QString flightMode                      () const;
     void setFlightMode                      (const QString& flightMode);
+    //void setFlightModeByModeNumber          (int custom_mode);
 
     QString priorityLinkName() const;
     QVariantList links() const;

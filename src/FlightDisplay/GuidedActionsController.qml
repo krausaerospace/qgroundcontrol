@@ -105,6 +105,8 @@ Item {
     readonly property int actionPayloadZoom:                26
     readonly property int actionPayloadCamType:             27
     readonly property int actionPayloadPanTilt:             28
+    readonly property int actionSoaringState:               29
+    readonly property int actionStallRecovery:              30
 
     property bool   _useChecklist:              QGroundControl.settingsManager.appSettings.useChecklist.rawValue && QGroundControl.corePlugin.options.preFlightChecklistUrl.toString().length
     property bool   _enforceChecklist:          _useChecklist && QGroundControl.settingsManager.appSettings.enforceChecklist.rawValue
@@ -388,8 +390,21 @@ Item {
             confirmDialog.message = qsTr("Set gimbal sensor type.")
             confirmDialog.hideTrigger = true
             break;
+        case actionSoaringState:
+            switch (actionData) {
+            case 0: confirmDialog.title = "RC switch"; break;
+            case 1: confirmDialog.title = "Disabled"; break;
+            case 2: confirmDialog.title = "Manaul"; break;
+            case 3: confirmDialog.title = "Auto"; break;
+            default: return;
+            }
+            confirmDialog.message = qsTr("Set Soaring State")
+            confirmDialog.hideTrigger = true
+            break;
+
 //        case actionPayloadZoom:
 //        case actionPayloadPanTilt:
+//        case actionStallRecovery:
 //            return;
         default:
             console.warn("Unknown actionCode", actionCode)
@@ -491,6 +506,13 @@ Item {
             break;
         case actionPayloadPanTilt:
             activeVehicle.gimbalControlPanTilt(actionData,actionAltitudeChange);
+            break;
+        case actionStallRecovery:
+            activeVehicle.setFlightModeByModeNumber(actionData);
+            //activeVehicle.setModeToSTALLRECOVERY();
+            break;
+        case actionSoaringState:
+            activeVehicle.setSoaringState(actionData);
             break;
 
         default:

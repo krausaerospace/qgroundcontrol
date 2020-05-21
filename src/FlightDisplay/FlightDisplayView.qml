@@ -713,6 +713,35 @@ Item {
                     action:             _guidedController.actionPayloadCamType,
                     data:               1,
                 },
+                {
+                    name:                qsTr("STALL"),
+                    iconSource:         "/res/stallRecoveryRedSquare.svg",
+                    buttonVisible:      true,
+                    buttonEnabled:      true,
+                    action:             _guidedController.actionStallRecovery,
+                    data:               25,
+                },
+                {
+                    name:                qsTr("SoarOFF"),
+                    buttonVisible:      activeVehicle.armed,
+                    buttonEnabled:      true,
+                    action:             _guidedController.actionSoaringState,
+                    data:               1,
+                },
+                {
+                    name:                qsTr("Soar M"),
+                    buttonVisible:      activeVehicle.armed,
+                    buttonEnabled:      true,
+                    action:             _guidedController.actionSoaringState,
+                    data:               2,
+                },
+                {
+                    name:                qsTr("Soar A"),
+                    buttonVisible:      activeVehicle.armed,
+                    buttonEnabled:      true,
+                    action:             _guidedController.actionSoaringState,
+                    data:               3,
+                },
             ]
 
             onClicked: {
@@ -729,9 +758,12 @@ Item {
                         break
                     case _guidedController.actionPayloadCamType:
                     case _guidedController.actionPayloadZoom:
+                    case _guidedController.actionStallRecovery:
+                        // execute now
                         _guidedController.executeAction(action, data)
                         break
                     default:
+                        // execute after user confirmation
                         _guidedController.confirmAction(action, data)
                         break
                     }

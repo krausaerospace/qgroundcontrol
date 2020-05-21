@@ -2454,6 +2454,22 @@ QString Vehicle::flightMode() const
     return _firmwarePlugin->flightMode(_base_mode, _custom_mode);
 }
 
+void Vehicle::setFlightModeByModeNumber(int custom_mode)
+{
+    uint8_t baseMode = MAV_MODE_FLAG_CUSTOM_MODE_ENABLED;
+
+    mavlink_message_t msg;
+    mavlink_msg_set_mode_pack_chan(_mavlink->getSystemId(),
+                                   _mavlink->getComponentId(),
+                                   priorityLink()->mavlinkChannel(),
+                                   &msg,
+                                   id(),
+                                   baseMode,
+                                   (uint32_t)custom_mode);
+    sendMessageOnLink(priorityLink(), msg);
+
+}
+
 void Vehicle::setFlightMode(const QString& flightMode)
 {
     uint8_t     base_mode;
@@ -4311,6 +4327,15 @@ void Vehicle::gimbalControPanTilt(float pan, float tilt)
         0, 0, 0,
         pan,
         tilt);
+}
+
+void Vehicle::setSoaringState(int state)
+{
+    sendMavCommand(
+        _defaultComponentId,
+        (MAV_CMD)1374,
+        false,
+        static_cast<float>(state));
 }
 
 void Vehicle::gimbalPitchStep(int direction)

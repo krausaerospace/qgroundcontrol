@@ -70,7 +70,7 @@ ArduPlaneFirmwarePlugin::ArduPlaneFirmwarePlugin(void)
         APMPlaneMode(APMPlaneMode::QRTL,            false),
         APMPlaneMode(APMPlaneMode::QAUTOTUNE,       false),
         APMPlaneMode(APMPlaneMode::FOLLOW,          true),
-        APMPlaneMode(APMPlaneMode::STALLRECOVERY,   true),
+        APMPlaneMode(APMPlaneMode::STALLRECOVERY,   false),
     });
 
     if (!_remapParamNameIntialized) {
