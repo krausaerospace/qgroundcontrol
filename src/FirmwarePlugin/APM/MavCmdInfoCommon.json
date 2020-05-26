@@ -120,31 +120,6 @@
                 "enumValues":       "1,0",
                 "default":          1
             }
-        },
-        {
-            "id":                   1331,
-            "comment":              "Tom's special sauce",
-            "param1": {
-                "label":            "Trillium Mode",
-            },
-            "param2": {
-                "label":            "param2",
-            },
-            "param3": {
-                "label":            "param3",
-            },
-            "param4": {
-                "label":            "param4",
-            },
-            "param5": {
-                "label":            "param5",
-            },
-            "param6": {
-                "label":            "param6",
-            },
-            "param7": {
-                "label":            "param7",
-            }
         }
     ]
 }
